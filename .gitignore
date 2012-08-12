@@ -1,0 +1,13 @@
+_ReSharper*
+*/obj/*
+obj/*
+*/bin/*
+bin/*
+*/TestResults/*
+TestResults/*
+**/*.dll
+**/*.pdb
+**/*.suo
+**/*.user
+*.suo
+*.user
