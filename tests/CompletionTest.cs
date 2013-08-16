@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Linq;
 using ClangSharp;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace tests {
     [TestClass]

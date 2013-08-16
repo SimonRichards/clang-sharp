@@ -1,19 +1,30 @@
 ﻿using System;
+using System.Text;
 
 namespace ClangSharp {
-    public class SourceLocation {
+    public class SourceLocation : IComparable {
         internal Interop.SourceLocation Native { get; private set; }
 
         public File File { get; private set; }
-        public readonly uint Line;
-        public readonly uint Column;
-        public readonly uint Offset;
+        public readonly int Line;
+        public readonly int Column;
+        public readonly int Offset;
 
         internal unsafe SourceLocation(Interop.SourceLocation native) {
             Native = native;
             IntPtr file = IntPtr.Zero;
-            Interop.clang_getInstantiationLocation(Native, &file, out Line, out Column, out Offset);
+            uint line, column, offset;
+            Interop.clang_getInstantiationLocation(Native, &file, out line, out column, out offset);
+            Line = (int)line;
+            Column = (int)column;
+            Offset = (int)offset;
             File = new File(file);
+        }
+
+        public int OffsetAtStartOfLine {
+            get {
+                return Offset - Column + 1;
+            }
         }
 
         public static SourceLocation Null {
@@ -21,7 +32,21 @@ namespace ClangSharp {
         }
 
         public bool Equals(SourceLocation other) {
-            return Native.Equals(other.Native);
+            return this == other;
+        }
+
+        public bool IsValid {
+            get {
+                return this != Null && !string.IsNullOrEmpty(File.Name);
+            }
+        }
+
+        public static bool operator ==(SourceLocation left, SourceLocation right) {
+            return left.File == right.File && left.Offset == right.Offset;
+        }
+
+        public static bool operator !=(SourceLocation left, SourceLocation right) {
+            return left.File != right.File || left.Offset != right.Offset;
         }
 
         public override bool Equals(object obj) {
@@ -29,11 +54,28 @@ namespace ClangSharp {
         }
 
         public override int GetHashCode() {
-            return Native.GetHashCode();
+            return (File.ToString() + Offset).GetHashCode();
         }
 
         public override string ToString() {
-            return File.Name == "" ? "unknown file" : File + "+" + Line + ":" + Column;
+            //return string.IsNullOrEmpty(File.Name) ? "unknown file" : File + " line: " + Line + " column: " + Column;
+            return Line + "," + Column;
+        }
+
+        public int CompareTo(object obj) {
+            SourceLocation other = obj as SourceLocation;
+            if (other == null) {
+                throw new ArgumentException("Other object in comparison was of wrong type", "obj");
+            }
+            return Offset.CompareTo(other.Offset);
+        }
+
+        public static bool operator <(SourceLocation first, SourceLocation second) {
+            return first.Offset < second.Offset;
+        }
+
+        public static bool operator >(SourceLocation first, SourceLocation second) {
+            return first.Offset > second.Offset;
         }
     }
 }

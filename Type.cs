@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ClangSharp;
-
-namespace ClangSharp {
+﻿namespace ClangSharp {
     public class Type {
 
         internal Interop.Type Native { get; private set; }
@@ -29,8 +23,14 @@ namespace ClangSharp {
             get { return new Cursor(Interop.clang_getTypeDeclaration(Native)); }
         }
 
-        public static string TypeKindSpelling(Kind kind) {
-            return Interop.clang_getTypeKindSpelling(kind).ManagedString;
+        public Kind TypeKind {
+            get { return Native.kind; }
+        }
+
+        public string TypeKindSpelling {
+            get {
+                return Interop.clang_getTypeKindSpelling(TypeKind).ManagedString;
+            }
         }
 
         public bool Equals(Type other) {
@@ -89,7 +89,63 @@ namespace ClangSharp {
             ObjCInterface,
             ObjCObjectPointer,
             FunctionNoProto,
-            FunctionProto 
+            FunctionProto
+        }
+
+        public string Spelling {
+            get {
+                switch (TypeKind) {
+                    case Kind.Void:
+                        return "void";
+                    case Kind.Bool:
+                        return "bool";
+                    case Kind.UChar:
+                    case Kind.CharU:
+                        return "unsigned char";
+                    case Kind.Char16:
+                        return "char16_t";
+                    case Kind.Char32:
+                        return "char32_t";
+                    case Kind.UShort:
+                        return "unsigned short int";
+                    case Kind.UInt:
+                        return "unsigned int";
+                    case Kind.ULong:
+                        return "unsigned long int";
+                    case Kind.ULongLong:
+                        return "unsigned long long int";
+                    case Kind.UInt128:
+                        return "uint128_t";
+                    case Kind.CharS:
+                        return "char";
+                    case Kind.SChar:
+                        return "signed char";
+                    case Kind.WChar:
+                        return "wchar_t";
+                    case Kind.Short:
+                        return "short int";
+                    case Kind.Int:
+                        return "int";
+                    case Kind.Long:
+                        return "long int";
+                    case Kind.LongLong:
+                        return "long long int";
+                    case Kind.Int128:
+                        return "int128_t";
+                    case Kind.Float:
+                        return "float";
+                    case Kind.Double:
+                        return "double";
+                    case Kind.LongDouble:
+                        return "long double";
+                    case Kind.NullPtr:
+                        return "nullptr";
+                    case Kind.Pointer:
+                        return Pointee.Spelling + "*";
+                    default:
+                        return Declaration.Spelling;
+                }
+            }
         }
     }
 }

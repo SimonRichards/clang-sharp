@@ -127,6 +127,9 @@
   <data name="fake_main_cpp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\c++\fake-main.cpp;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="kitchen_sink" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\c++\kitchen-sink.cpp;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="opaque_class_h" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\c++\opaque-class.h;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>

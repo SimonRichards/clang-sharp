@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ClangSharp {
-    // ReSharper disable InconsistentNaming
+﻿namespace ClangSharp {
     public enum Options {
         Werror,
         w,
@@ -34,5 +28,4 @@ namespace ClangSharp {
         gline_tables_only,
         g
     }
-    // ReSharper restore InconsistentNaming
 }

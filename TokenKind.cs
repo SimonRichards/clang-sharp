@@ -4,6 +4,7 @@ namespace ClangSharp {
         Keyword,
         Identifier,
         Literal,
-        Comment
+        Comment,
+        All
     }
 }

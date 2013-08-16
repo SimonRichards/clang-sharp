@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ClangSharp {
     public class CodeCompletion {
@@ -45,7 +44,7 @@ namespace ClangSharp {
         public readonly IList<string> Annotations;
         public readonly string Comment;
 
-        internal unsafe CodeCompletion(Interop.CompletionResult *native) {
+        internal unsafe CodeCompletion(Interop.CompletionResult* native) {
             IntPtr completionString = native->completionString;
             Chunks = new Chunk[Interop.clang_getNumCompletionChunks(completionString)];
             for (uint i = 0; i < Chunks.Count(); ++i) {

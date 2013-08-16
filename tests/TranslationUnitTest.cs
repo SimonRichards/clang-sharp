@@ -1,11 +1,6 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ClangSharp;
-using tests.Properties;
-using System.IO;
 
 namespace tests {
     [TestClass]
@@ -26,9 +21,18 @@ namespace tests {
         [TestMethod]
         public void TestDiagnostics() {
             Assert.IsTrue(Main.NumDiagnostics > 0);
-            Assert.IsTrue(Main.Diagnostics.Any(diag => diag.Format().Contains("newline")));
             Assert.IsTrue(Class.NumDiagnostics == Class.Diagnostics.Count());
-            Assert.IsTrue(Class.Diagnostics.First().NumFixits == Class.Diagnostics.First().Fixits.Count());
+        }
+
+        [TestMethod]
+        public void TestComments() {
+            string source = System.IO.File.ReadAllText(KitchenSinkCpp);
+            var comments = KitchenSink.Comments;
+            Assert.AreEqual(7, comments.Count());
+            foreach (var comment in comments) {
+                int start = comment.Extent.Start.Offset, end = comment.Extent.End.Offset;
+                Assert.AreEqual(comment.Spelling, source.Substring(start, end - start));
+            }
         }
     }
 }
