@@ -58,8 +58,7 @@ namespace ClangSharp {
         }
 
         public override string ToString() {
-            //return string.IsNullOrEmpty(File.Name) ? "unknown file" : File + " line: " + Line + " column: " + Column;
-            return Line + "," + Column;
+            return string.Format("{0}({1},{2})", File, Line, Column);
         }
 
         public int CompareTo(object obj) {
