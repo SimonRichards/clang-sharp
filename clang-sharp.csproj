@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessSpecifier.cs" />
     <Compile Include="Clang.cs" />
     <Compile Include="ClangException.cs" />
     <Compile Include="CodeCompletion.cs" />

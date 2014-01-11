@@ -159,6 +159,11 @@ namespace ClangSharp {
             get { return Interop.clang_CXXMethod_isStatic(Native) != 0; }
         }
 
+        public AccessSpecifier AccessSpecifier
+        {
+            get { return Interop.clang_getCXXAccessSpecifier(Native); }
+        }
+
         public bool IsNull {
             get { return Interop.clang_Cursor_isNull(Native) != 0; }
         }

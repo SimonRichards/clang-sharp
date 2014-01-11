@@ -320,6 +320,9 @@ namespace ClangSharp {
         public static extern uint clang_CXXMethod_isStatic(Cursor c);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        internal static extern AccessSpecifier clang_getCXXAccessSpecifier(Cursor c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern TokenKind clang_getTokenKind(Token t);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
