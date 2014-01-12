@@ -158,13 +158,13 @@ namespace ClangSharp {
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern ClangString clang_formatDiagnostic(
-            IntPtr diag, ClangSharp.Diagnostic.DisplayOptions options);
+            IntPtr diag, Diagnostic.DisplayOptions options);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern uint clang_defaultDiagnosticDisplayOptions();
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
-        public static extern ClangSharp.Diagnostic.Severity clang_getDiagnosticSeverity(IntPtr diag);
+        public static extern Diagnostic.Severity clang_getDiagnosticSeverity(IntPtr diag);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern SourceLocation clang_getDiagnosticLocation(IntPtr diag);
@@ -199,7 +199,7 @@ namespace ClangSharp {
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern IntPtr clang_parseTranslationUnit(
             IntPtr index, string filename, string[] args, int numArgs,
-            IntPtr unsavedFiles, int numUnsavedFiles, uint options);
+            UnsavedFile[] unsavedFiles, uint numUnsavedFiles, TranslationUnitFlags options);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern void clang_disposeTranslationUnit(IntPtr tu);
