@@ -10,7 +10,7 @@
             Kind = Interop.clang_getTokenKind(native);
             Location = new SourceLocation(Interop.clang_getTokenLocation(parent.Native, native));
             Extent = new SourceRange(Interop.clang_getTokenExtent(parent.Native, native));
-            Spelling = parent.GetText(Extent);
+            Spelling = Interop.clang_getTokenSpelling(parent.Native, native).ManagedString; //parent.GetText(Extent);
         }
     }
 }

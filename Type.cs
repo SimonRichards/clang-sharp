@@ -7,6 +7,11 @@
             Native = native;
         }
 
+        public Type ArrayElementType
+        {
+            get { return new Type(Interop.clang_getArrayElementType(Native)); }
+        }
+
         public Type Canonical {
             get { return new Type(Interop.clang_getCanonicalType(Native)); }
         }
@@ -31,6 +36,36 @@
             get {
                 return Interop.clang_getTypeKindSpelling(TypeKind).ManagedString;
             }
+        }
+
+        public bool IsConstQualifiedType
+        {
+            get { return Interop.clang_isConstQualifiedType(Native) != 0; }
+        }
+
+        public bool IsRestrictQualifiedType
+        {
+            get { return Interop.clang_isRestrictQualifiedType(Native) != 0; }
+        }
+
+        public bool IsVolatileQualifiedType
+        {
+            get { return Interop.clang_isVolatileQualifiedType(Native) != 0; }
+        }
+
+        public bool IsFunctionTypeVariadic
+        {
+            get { return Interop.clang_isFunctionTypeVariadic(Native) != 0; }
+        }
+
+        public int NumArgTypes
+        {
+            get { return Interop.clang_getNumArgTypes(Native); }
+        }
+
+        public Type GetArgType(uint i)
+        {
+            return new Type(Interop.clang_getArgType(Native, i));
         }
 
         public bool Equals(Type other) {
@@ -89,7 +124,13 @@
             ObjCInterface,
             ObjCObjectPointer,
             FunctionNoProto,
-            FunctionProto
+            FunctionProto,
+            ConstantArray,
+            Vector,
+            IncompleteArray,
+            VariableArray,
+            DependentSizedArray,
+            MemberPointer
         }
 
         public string Spelling {
