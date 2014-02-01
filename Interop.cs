@@ -220,6 +220,12 @@ namespace ClangSharp {
         public static extern CursorKind clang_getCursorKind(Cursor c);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern Cursor clang_getCursorLexicalParent(Cursor c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern Cursor clang_getCursorSemanticParent(Cursor c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern uint clang_isDeclaration(CursorKind ck);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]

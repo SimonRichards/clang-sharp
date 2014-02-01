@@ -256,6 +256,16 @@ namespace ClangSharp {
             get { return Interop.clang_isVirtualBase(Native) != 0; }
         }
 
+        public Cursor LexicalParent
+        {
+            get { return new Cursor(Interop.clang_getCursorLexicalParent(Native)); }
+        }
+
+        public Cursor SemanticParent
+        {
+            get { return new Cursor(Interop.clang_getCursorSemanticParent(Native)); }
+        }
+
         /// <summary>
         /// Retrieve the NULL cursor, which represents no entity. 
         /// </summary>
