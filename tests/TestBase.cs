@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using ClangSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tests.Properties;
@@ -28,12 +24,13 @@ namespace tests {
             System.IO.File.WriteAllText(OpaqueClassH, Resources.opaque_class_h);
             System.IO.File.WriteAllText(MainCpp, Resources.fake_main_cpp);
             System.IO.File.WriteAllText(KitchenSinkCpp, Resources.kitchen_sink);
-            var options = new[] { Options.Weverything };
+            var args = new[] { Options.Weverything };
             var unsavedFiles = new UnsavedFile[] { };
+            var options = TranslationUnitFlags.IncludeBriefCommentsInCodeCompletion | TranslationUnitFlags.DetailedPreprocessingRecord;
             Index = new Index();
-            Main = Index.CreateTranslationUnit(MainCpp, options, unsavedFiles);
-            Class = Index.CreateTranslationUnit(FakeClassCpp, options, unsavedFiles);
-            KitchenSink = Index.CreateTranslationUnit(KitchenSinkCpp, options, unsavedFiles);
+            Main = Index.CreateTranslationUnit(MainCpp, args, unsavedFiles, options);
+            Class = Index.CreateTranslationUnit(FakeClassCpp, args, unsavedFiles, options);
+            KitchenSink = Index.CreateTranslationUnit(KitchenSinkCpp, args, unsavedFiles, options);
         }
 
         [AssemblyCleanup]

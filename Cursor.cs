@@ -32,6 +32,21 @@ namespace ClangSharp {
             return (int)((long)Interop.clang_hashCursor(Native) - UInt32.MaxValue / 2);
         }
 
+        public Cursor GetArgument(uint i)
+        {
+            return new Cursor(Interop.clang_Cursor_getArgument(Native, i));
+        }
+
+        public Type GetArgumentType(uint i)
+        {
+            return new Type(Interop.clang_getArgType(Native, i));
+        }
+
+        public Cursor GetOverloadedDecl(uint i)
+        {
+            return new Cursor(Interop.clang_getOverloadedDecl(Native, i));
+        }
+
         /// <summary>
         /// Determine whether the cursor represents a declaration. 
         /// </summary>
@@ -89,6 +104,16 @@ namespace ClangSharp {
             get { return Interop.clang_isUnexposed(Kind) != 0; }
         }
 
+        public int NumArguments
+        {
+            get { return Interop.clang_Cursor_getNumArguments(Native); }
+        }
+
+        public uint NumOverloadedDecls
+        {
+            get { return Interop.clang_getNumOverloadedDecls(Native); }
+        }
+
         /// <summary>
         /// Determine the linkage of the entity referred to by a given cursor. 
         /// </summary>
@@ -130,6 +155,16 @@ namespace ClangSharp {
             get { return new Type(Interop.clang_getCursorType(Native)); }
         }
 
+        public Type TypedefDeclUnderlyingType
+        {
+            get { return new Type(Interop.clang_getTypedefDeclUnderlyingType(Native)); }
+        }
+
+        public Type EnumDeclIntegerType
+        {
+            get { return new Type(Interop.clang_getEnumDeclIntegerType(Native)); }
+        }
+
         public Type ResultType {
             get { return new Type(Interop.clang_getCursorResultType(Native)); }
         }
@@ -141,6 +176,12 @@ namespace ClangSharp {
         private string _spelling;
         public string Spelling {
             get { return _spelling ?? (_spelling = Interop.clang_getCursorSpelling(Native).ManagedString); }
+        }
+
+        private string _displayName;
+        public string DisplayName
+        {
+            get { return _displayName ?? (_displayName = Interop.clang_getCursorDisplayName(Native).ManagedString); }
         }
 
         public Cursor Referenced {
@@ -159,8 +200,70 @@ namespace ClangSharp {
             get { return Interop.clang_CXXMethod_isStatic(Native) != 0; }
         }
 
+        public bool IsPureVirtualCxxMethod
+        {
+            get { return Interop.clang_CXXMethod_isPureVirtual(Native) != 0; }
+        }
+
+        public bool IsVirtualCxxMethod
+        {
+            get { return Interop.clang_CXXMethod_isVirtual(Native) != 0; }
+        }
+        public CursorKind TemplateCursorKind
+        {
+            get { return Interop.clang_getTemplateCursorKind(Native); }
+        }
+        public Cursor SpecializedCursorTemplate
+        {
+            get { return new Cursor(Interop.clang_getSpecializedCursorTemplate(Native)); }
+        }
+        public SourceRange CursorReferenceNameRange
+        {
+            get { return new SourceRange(Interop.clang_getCursorReferenceNameRange(Native)); }
+        }
+
+        public AccessSpecifier AccessSpecifier
+        {
+            get { return Interop.clang_getCXXAccessSpecifier(Native); }
+        }
+
+        public bool IsBitField
+        {
+            get { return Interop.clang_Cursor_isBitField(Native) != 0; }
+        }
+
+        public bool IsDynamicCall
+        {
+            get { return Interop.clang_Cursor_isDynamicCall(Native) != 0; }
+        }
+
         public bool IsNull {
             get { return Interop.clang_Cursor_isNull(Native) != 0; }
+        }
+
+        public bool IsObjCOptional
+        {
+            get { return Interop.clang_Cursor_isObjCOptional(Native) != 0; }
+        }
+
+        public bool IsVariadic
+        {
+            get { return Interop.clang_Cursor_isVariadic(Native) != 0; }
+        }
+
+        public bool IsVirtualBase
+        {
+            get { return Interop.clang_isVirtualBase(Native) != 0; }
+        }
+
+        public Cursor LexicalParent
+        {
+            get { return new Cursor(Interop.clang_getCursorLexicalParent(Native)); }
+        }
+
+        public Cursor SemanticParent
+        {
+            get { return new Cursor(Interop.clang_getCursorSemanticParent(Native)); }
         }
 
         /// <summary>

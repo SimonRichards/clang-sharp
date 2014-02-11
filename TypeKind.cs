@@ -47,6 +47,12 @@ namespace ClangSharp {
         ObjCInterface,
         ObjCObjectPointer,
         FunctionNoProto,
-        FunctionProto
+        FunctionProto,
+        ConstantArray,
+        Vector,
+        IncompleteArray,
+        VariableArray,
+        DependentSizedArray,
+        MemberPointer
     }
 }

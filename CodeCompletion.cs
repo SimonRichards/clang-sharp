@@ -63,6 +63,7 @@ namespace ClangSharp {
 
         [Flags]
         public enum Options {
+            None = 0x00,
             IncludeMacros = 0x01,
             IncludeCodePatterns = 0x02,
             IncludeBriefComments = 0x04

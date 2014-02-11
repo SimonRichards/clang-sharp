@@ -32,15 +32,16 @@ namespace ClangSharp {
             return new TranslationUnit(astFilename, Interop.clang_createTranslationUnit(Native, astFilename));
         }
 
-        public TranslationUnit CreateTranslationUnit(string filename, Options[] clangArgs, UnsavedFile[] unsavedFiles = null) {
+        public TranslationUnit CreateTranslationUnit(string filename, Options[] clangArgs, UnsavedFile[] unsavedFiles = null, TranslationUnitFlags options = TranslationUnitFlags.None) {
             var args = clangArgs.Select(arg => "-" + arg.ToString().Replace("_", "-")).ToArray();
             return CreateTranslationUnit(
                 filename,
                 args,
-                unsavedFiles);
+                unsavedFiles,
+                options);
         }
 
-        public TranslationUnit CreateTranslationUnit(string filename, string[] clangArgs = null, UnsavedFile[] unsavedFiles = null) {
+        public TranslationUnit CreateTranslationUnit(string filename, string[] clangArgs = null, UnsavedFile[] unsavedFiles = null, TranslationUnitFlags options = TranslationUnitFlags.None) {
             if (!System.IO.File.Exists(filename)) {
                 throw new System.IO.FileNotFoundException("Couldn't find input file.", filename);
             }
@@ -48,13 +49,28 @@ namespace ClangSharp {
             unsavedFiles = unsavedFiles ?? new UnsavedFile[0];
             return new TranslationUnit(
                 filename,
-                Interop.clang_createTranslationUnitFromSourceFile(
+                Interop.clang_parseTranslationUnit(
                     Native,
                     filename,
-                    clangArgs.Length,
                     clangArgs,
+                    clangArgs.Length,
+                    unsavedFiles.Select(f => f.Native).ToArray(),
                     (uint)unsavedFiles.Length,
-                    unsavedFiles.Select(f => f.Native).ToArray()));
+                    options));
         }
+    }
+
+    [Flags]
+    public enum TranslationUnitFlags
+    {
+        None = 0x00,
+        DetailedPreprocessingRecord = 0x01,
+        Incomplete = 0x02,
+        PrecompiledPreamble = 0x04,
+        CacheCompletionResults = 0x08,
+        ForSerialization = 0x10,
+        CXXChainedPCH = 0x20,
+        SkipFunctionBodies = 0x40,
+        IncludeBriefCommentsInCodeCompletion = 0x80
     }
 }

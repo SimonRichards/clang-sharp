@@ -71,6 +71,11 @@ namespace ClangSharp {
             get { return new Cursor(Interop.clang_getTranslationUnitCursor(Native)); }
         }
 
+        public bool IsFileMultipleIncludeGuarded(File file)
+        {
+            return Interop.clang_isFileMultipleIncludeGuarded(Native, file.Native) != 0;
+        }
+
         public File GetFile(string filename) {
             return new File(Interop.clang_getFile(Native, filename));
         }

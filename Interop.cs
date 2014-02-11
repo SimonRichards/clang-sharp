@@ -117,6 +117,9 @@ namespace ClangSharp {
         public static extern long clang_getFileTime(IntPtr file);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern uint clang_isFileMultipleIncludeGuarded(IntPtr tu, IntPtr file);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern IntPtr clang_getFile(IntPtr tu, string filename);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
@@ -155,13 +158,13 @@ namespace ClangSharp {
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern ClangString clang_formatDiagnostic(
-            IntPtr diag, ClangSharp.Diagnostic.DisplayOptions options);
+            IntPtr diag, Diagnostic.DisplayOptions options);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern uint clang_defaultDiagnosticDisplayOptions();
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
-        public static extern ClangSharp.Diagnostic.Severity clang_getDiagnosticSeverity(IntPtr diag);
+        public static extern Diagnostic.Severity clang_getDiagnosticSeverity(IntPtr diag);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern SourceLocation clang_getDiagnosticLocation(IntPtr diag);
@@ -196,7 +199,7 @@ namespace ClangSharp {
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern IntPtr clang_parseTranslationUnit(
             IntPtr index, string filename, string[] args, int numArgs,
-            IntPtr unsavedFiles, int numUnsavedFiles, uint options);
+            UnsavedFile[] unsavedFiles, uint numUnsavedFiles, TranslationUnitFlags options);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern void clang_disposeTranslationUnit(IntPtr tu);
@@ -215,6 +218,12 @@ namespace ClangSharp {
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern CursorKind clang_getCursorKind(Cursor c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern Cursor clang_getCursorLexicalParent(Cursor c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern Cursor clang_getCursorSemanticParent(Cursor c);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern uint clang_isDeclaration(CursorKind ck);
@@ -262,6 +271,30 @@ namespace ClangSharp {
         public static extern Type clang_getCursorType(Cursor c);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern Type clang_getTypedefDeclUnderlyingType(Cursor c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern Type clang_getEnumDeclIntegerType(Cursor c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern uint clang_getNumOverloadedDecls(Cursor c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        internal static extern Cursor clang_getOverloadedDecl(Cursor c, uint i);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        internal static extern int clang_Cursor_getNumArguments(Cursor c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        internal static extern Cursor clang_Cursor_getArgument(Cursor c, uint i);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        internal static extern Type clang_getArgType(Cursor c, uint i);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        internal static extern bool clang_isPODType(Type c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern uint clang_equalTypes(Type a, Type b);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
@@ -278,6 +311,27 @@ namespace ClangSharp {
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern Type clang_getResultType(Type t);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        internal static extern Type clang_getArrayElementType(Type t);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        internal static extern int clang_getNumArgTypes(Type t);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        internal static extern Type clang_getArgType(Type t, uint i);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern uint clang_isConstQualifiedType(Type ck);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern uint clang_isRestrictQualifiedType(Type ck);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern uint clang_isVolatileQualifiedType(Type ck);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        internal static extern uint clang_isFunctionTypeVariadic(Type t);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern Type clang_getCursorResultType(Cursor c);
@@ -308,6 +362,9 @@ namespace ClangSharp {
         public static extern ClangString clang_getCursorSpelling(Cursor c);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern ClangString clang_getCursorDisplayName(Cursor c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern Cursor clang_getCursorReferenced(Cursor c);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
@@ -318,6 +375,24 @@ namespace ClangSharp {
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern uint clang_CXXMethod_isStatic(Cursor c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        internal static extern uint clang_CXXMethod_isPureVirtual(Cursor c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        internal static extern uint clang_CXXMethod_isVirtual(Cursor c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        internal static extern CursorKind clang_getTemplateCursorKind(Cursor c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        internal static extern Cursor clang_getSpecializedCursorTemplate(Cursor c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        internal static extern SourceRange clang_getCursorReferenceNameRange(Cursor c);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        internal static extern AccessSpecifier clang_getCXXAccessSpecifier(Cursor c);
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern TokenKind clang_getTokenKind(Token t);
@@ -412,7 +487,21 @@ namespace ClangSharp {
         public static extern IntPtr clang_Cursor_getTranslationUnit(Cursor cursor); // TODO Does this need disposing?
 
         [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern uint clang_Cursor_isBitField(Cursor native);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern int clang_Cursor_isDynamicCall(Cursor native);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
         public static extern int clang_Cursor_isNull(Cursor native);
 
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern uint clang_Cursor_isObjCOptional(Cursor native);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern uint clang_Cursor_isVariadic(Cursor native);
+
+        [DllImport(nativeLib, CallingConvention = convention, CharSet = charSet)]
+        public static extern uint clang_isVirtualBase(Cursor c);
     }
 }
