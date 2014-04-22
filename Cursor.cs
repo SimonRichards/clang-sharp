@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace ClangSharp {
@@ -32,19 +33,37 @@ namespace ClangSharp {
             return (int)((long)Interop.clang_hashCursor(Native) - UInt32.MaxValue / 2);
         }
 
-        public Cursor GetArgument(uint i)
-        {
+        public Cursor GetArgument(uint i) {
             return new Cursor(Interop.clang_Cursor_getArgument(Native, i));
         }
 
-        public Type GetArgumentType(uint i)
-        {
+        public Type GetArgumentType(uint i) {
             return new Type(Interop.clang_getArgType(Native, i));
         }
 
-        public Cursor GetOverloadedDecl(uint i)
-        {
+        public Cursor GetOverloadedDecl(uint i) {
             return new Cursor(Interop.clang_getOverloadedDecl(Native, i));
+        }
+
+        public IList<Cursor> Children {
+            get {
+                return VisitWithBehaviour(ChildVisitResult.Continue);
+            }    
+        }
+
+        public IList<Cursor> Descendants {
+            get {
+                return VisitWithBehaviour(ChildVisitResult.Recurse);
+            }
+        }
+
+        private IList<Cursor> VisitWithBehaviour(ChildVisitResult visitResult) {
+            var result = new List<Cursor>();
+            VisitChildren((c, p) => {
+                result.Add(c);
+                return visitResult;
+            });
+            return result;
         }
 
         /// <summary>
@@ -104,13 +123,11 @@ namespace ClangSharp {
             get { return Interop.clang_isUnexposed(Kind) != 0; }
         }
 
-        public int NumArguments
-        {
+        public int NumArguments {
             get { return Interop.clang_Cursor_getNumArguments(Native); }
         }
 
-        public uint NumOverloadedDecls
-        {
+        public uint NumOverloadedDecls {
             get { return Interop.clang_getNumOverloadedDecls(Native); }
         }
 
@@ -155,13 +172,11 @@ namespace ClangSharp {
             get { return new Type(Interop.clang_getCursorType(Native)); }
         }
 
-        public Type TypedefDeclUnderlyingType
-        {
+        public Type TypedefDeclUnderlyingType {
             get { return new Type(Interop.clang_getTypedefDeclUnderlyingType(Native)); }
         }
 
-        public Type EnumDeclIntegerType
-        {
+        public Type EnumDeclIntegerType {
             get { return new Type(Interop.clang_getEnumDeclIntegerType(Native)); }
         }
 
@@ -179,8 +194,7 @@ namespace ClangSharp {
         }
 
         private string _displayName;
-        public string DisplayName
-        {
+        public string DisplayName {
             get { return _displayName ?? (_displayName = Interop.clang_getCursorDisplayName(Native).ManagedString); }
         }
 
@@ -200,40 +214,32 @@ namespace ClangSharp {
             get { return Interop.clang_CXXMethod_isStatic(Native) != 0; }
         }
 
-        public bool IsPureVirtualCxxMethod
-        {
+        public bool IsPureVirtualCxxMethod {
             get { return Interop.clang_CXXMethod_isPureVirtual(Native) != 0; }
         }
 
-        public bool IsVirtualCxxMethod
-        {
+        public bool IsVirtualCxxMethod {
             get { return Interop.clang_CXXMethod_isVirtual(Native) != 0; }
         }
-        public CursorKind TemplateCursorKind
-        {
+        public CursorKind TemplateCursorKind {
             get { return Interop.clang_getTemplateCursorKind(Native); }
         }
-        public Cursor SpecializedCursorTemplate
-        {
+        public Cursor SpecializedCursorTemplate {
             get { return new Cursor(Interop.clang_getSpecializedCursorTemplate(Native)); }
         }
-        public SourceRange CursorReferenceNameRange
-        {
+        public SourceRange CursorReferenceNameRange {
             get { return new SourceRange(Interop.clang_getCursorReferenceNameRange(Native)); }
         }
 
-        public AccessSpecifier AccessSpecifier
-        {
+        public AccessSpecifier AccessSpecifier {
             get { return Interop.clang_getCXXAccessSpecifier(Native); }
         }
 
-        public bool IsBitField
-        {
+        public bool IsBitField {
             get { return Interop.clang_Cursor_isBitField(Native) != 0; }
         }
 
-        public bool IsDynamicCall
-        {
+        public bool IsDynamicCall {
             get { return Interop.clang_Cursor_isDynamicCall(Native) != 0; }
         }
 
@@ -241,28 +247,23 @@ namespace ClangSharp {
             get { return Interop.clang_Cursor_isNull(Native) != 0; }
         }
 
-        public bool IsObjCOptional
-        {
+        public bool IsObjCOptional {
             get { return Interop.clang_Cursor_isObjCOptional(Native) != 0; }
         }
 
-        public bool IsVariadic
-        {
+        public bool IsVariadic {
             get { return Interop.clang_Cursor_isVariadic(Native) != 0; }
         }
 
-        public bool IsVirtualBase
-        {
+        public bool IsVirtualBase {
             get { return Interop.clang_isVirtualBase(Native) != 0; }
         }
 
-        public Cursor LexicalParent
-        {
+        public Cursor LexicalParent {
             get { return new Cursor(Interop.clang_getCursorLexicalParent(Native)); }
         }
 
-        public Cursor SemanticParent
-        {
+        public Cursor SemanticParent {
             get { return new Cursor(Interop.clang_getCursorSemanticParent(Native)); }
         }
 
