@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ClangSharp;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace tests {
-    [TestClass]
+    [TestFixture]
     public class CursorTest : TestBase {
-        [TestMethod]
+        [Test]
         public void TestVisitAll() {
             var cursors = new List<Cursor>();
             Main.Cursor.VisitChildren((cursor, parent) => {

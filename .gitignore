@@ -11,3 +11,5 @@ TestResults/*
 **/*.user
 *.suo
 *.user
+*.userprefs
+packages/

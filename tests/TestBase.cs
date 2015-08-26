@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using ClangSharp;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using tests.Properties;
 
 namespace tests {
-    [TestClass]
+    [SetUpFixture]
     public class TestBase {
         protected static string FakeClassCpp = Path.Combine(Path.GetTempPath(), "fake-class.cpp");
         protected static string FakeClassH = Path.Combine(Path.GetTempPath(), "fake-class.h");
@@ -17,8 +17,8 @@ namespace tests {
         protected static TranslationUnit Class;
         protected static TranslationUnit KitchenSink;
 
-        [AssemblyInitialize]
-        public static void CreateTestFiles(TestContext context) {
+        [SetUp]
+        public static void CreateTestFiles() {
             System.IO.File.WriteAllText(FakeClassCpp, Resources.fake_class_cpp);
             System.IO.File.WriteAllText(FakeClassH, Resources.fake_class_h);
             System.IO.File.WriteAllText(OpaqueClassH, Resources.opaque_class_h);
@@ -33,7 +33,7 @@ namespace tests {
             KitchenSink = Index.CreateTranslationUnit(KitchenSinkCpp, args, unsavedFiles, options);
         }
 
-        [AssemblyCleanup]
+        [TearDown]
         public static void DeleteTestFiles() {
             foreach (string file in new[] { FakeClassCpp, FakeClassH, OpaqueClassH, MainCpp, KitchenSinkCpp }) {
                 System.IO.File.Delete(file);

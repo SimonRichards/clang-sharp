@@ -1,30 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace tests {
-    [TestClass]
+    [TestFixture]
     public class TranslationUnitTest : TestBase {
 
-        [TestMethod]
+        [Test]
         public void TestSpelling() {
             Assert.IsTrue(Main.Spelling.Contains("fake-main.cpp"));
         }
 
-        [TestMethod]
+        [Test]
         public void TestInclusions() {
             var inclusions = new List<string>();
             Main.VisitInclusions((file, stack) => inclusions.Add(file.Name));
             Assert.IsTrue(inclusions.Any(inclusion => inclusion.Contains("fake-class.h")));
         }
 
-        [TestMethod]
+        [Test]
         public void TestDiagnostics() {
             Assert.IsTrue(Main.NumDiagnostics > 0);
             Assert.IsTrue(Class.NumDiagnostics == Class.Diagnostics.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void TestComments() {
             string source = System.IO.File.ReadAllText(KitchenSinkCpp);
             var comments = KitchenSink.Comments;

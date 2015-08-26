@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using ClangSharp;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace tests {
-    [TestClass]
+    [TestFixture]
     public class CompletionTest : TestBase {
-        [TestMethod]
+        [Test]
         public void TestMemberCompletion() {
             const string completionLine = "instance.";
             const string edited = "#include <iostream>\n" +
