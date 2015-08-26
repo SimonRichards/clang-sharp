@@ -1,3 +1,3 @@
-# ClangSharp
+# ClangSharp ![Build status](https://travis-ci.org/SimonRichards/clang-sharp.svg)
 
-C# bindings for the libclang interface.
+Object oriented C# bindings for the libclang interface.
