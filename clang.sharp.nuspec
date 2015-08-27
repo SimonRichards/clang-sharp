@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>clang.sharp</id>
+    <version>3.6.2</version>
+    <title>ClangSharp</title>
+    <authors>Simon Richards</authors>
+    <owners>Simon Richards</owners>
+    <licenseUrl>https://raw.githubusercontent.com/SimonRichards/clang-sharp/master/License.txt</licenseUrl>
+    <projectUrl>https://github.com/SimonRichards/clang-sharp</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>C# bindings for the libclang c++ parsing library.</description>
+    <releaseNotes>libclang binaries are now included for ease of use.</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>clang llvm libclang clangsharp llvmsharp ast c++ c compilers parsers clang.net bindings pinvoke</tags>
+    <dependencies />
+  </metadata>
+</package>
