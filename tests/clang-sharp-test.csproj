@@ -51,6 +51,7 @@
     </Compile>
     <Compile Include="TestBase.cs" />
     <Compile Include="TranslationUnitTest.cs" />
+    <Compile Include="AssemblySetUp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="c++\opaque-class.h" />
